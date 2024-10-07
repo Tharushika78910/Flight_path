@@ -1,0 +1,46 @@
+SELECT ident
+FROM airport
+WHERE continent = 'EU'
+AND type='large_airport'
+ORDER by name asc
+LIMIT 30;
+
+iso_country, ident, name, type, latitude_deg, longitude_deg, continent
+
+INSERT INTO player (player_id, screen_name, start_loc, end_loc) VALUES (%s, %s, %s, %s);
+
+create table airport_groups
+  (
+      group_id int auto_increment primary key,
+      start_loc varchar(10) not null,
+      loc1 varchar(10) not null,
+      loc2 varchar(10) not null,
+      loc3 varchar(10) not null,
+      loc4 varchar(10) not null,
+      end_loc varchar(10) not null
+  )
+   charset = latin1;
+
+INSERT INTO airport_groups (group_id, start_loc, loc1, loc2, loc3, loc4, end_loc) VALUES (1, 'LEMD', 'LEAL', 'EHAM','LGAV','EGAA','LYBE');
+INSERT INTO airport_groups (group_id, start_loc, loc1, loc2, loc3, loc4, end_loc) VALUES (2, 'ENBR', 'EDDB', 'EKBI','EGBB','LIPE','LFBD');
+INSERT INTO airport_groups (group_id, start_loc, loc1, loc2, loc3, loc4, end_loc) VALUES (3, 'UKBB', 'EBBR', 'LHBP','LBBG','LIEE','LICC');
+INSERT INTO airport_groups (group_id, start_loc, loc1, loc2, loc3, loc4, end_loc) VALUES (4, 'GCRR', 'LFPG', 'EDDK','EKCH','UUDD','EIDW');
+INSERT INTO airport_groups (group_id, start_loc, loc1, loc2, loc3, loc4, end_loc) VALUES (5, 'EDDL', 'EGPH', 'EHEH','LFSB','LICJ','LPFR');
+
+
+******************************************************************
+
+- game start
+    - Tell the player what the game is about
+    - Ask for the players name
+    - Insert new player to the database(player_id)
+    - insert the goals to the database
+
+- Game loop (while)
+    - Ask the player, what they would like to do, by giving options
+    - if something happens during the flight, add it here
+    - update database tables based on user's choice
+    - check if the game needs to end
+
+- game over
+    -display points, ranking
