@@ -26,7 +26,7 @@ def get_airport_codes():
     cursor = conn.cursor()
 
     # Query to get the airport_code column from your table
-    query = "SELECT airport_code FROM new_airports"
+    query = "SELECT airport_code FROM airports"
     cursor.execute(query)
 
     # Fetch all results and store in the airports list
