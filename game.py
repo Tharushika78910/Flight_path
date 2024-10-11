@@ -13,7 +13,7 @@ def connect_to_db():
 
         )
         if conn.is_connected():
-            print("Connected to MySQL database")
+            print(" ")
         return conn
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -39,8 +39,9 @@ def get_airport_codes():
 
 airports = get_airport_codes()
 
-# Select 5 random airports that will have fuel leaks
-fuel_leak_airports = random.sample(airports, 5)
+# Select 3 random airports that will have unfavourable weather conditions
+fuel_leak_airports = random.sample(airports, 3)
+
 
 class Airplane:
     def __init__(self, start_airport, destination_airport, initial_fuel=1000, money=2000):
@@ -53,14 +54,14 @@ class Airplane:
 
     def fly_to(self, next_airport):
         distance = random.randint(100, 500)       # Random distance in km
-        fuel_needed = distance * 0.5                      # Fuel consumption per km
+        fuel_needed = distance * 2.0                      # Fuel consumption per km
 
-        # Check if next airport has a fuel leak
+        # Check if next airport has an unfavourable weather condition.
 
         if next_airport in fuel_leak_airports:
             self.fuel_leak = True
-            fuel_needed *= 1.5                      # Increase fuel consumption by 50%
-            print(f"Warning: Fuel leak at {next_airport}! Fuel consumption is higher.")
+            fuel_needed *= 3.0                      # Increase fuel consumption by 50%
+            print(f"Warning: Unfavourable weather condition at {next_airport}! Fuel consumption is higher.")
         else:
             self.fuel_leak = False
 
@@ -70,6 +71,13 @@ class Airplane:
             print(f"Flew to {next_airport}. Fuel remaining: {self.fuel:.2f}")
         else:
             print("Not enough fuel to fly to the next airport!")
+            return False
+
+        def check_game_over(fuel, money):
+            if fuel < (fuel_needed) and money <= 0:
+                print("\nYou're out of fuel and money. You can't continue your journey.")
+                print("Game Over! Better luck next time, captain.")
+                return True
             return False
 
         return True
@@ -92,19 +100,21 @@ class Airplane:
         print(f"Current airport: {self.current_airport}, Destination: {self.destination_airport}")
         print(f"Fuel: {self.fuel}, Money: {self.money}, Cargo: {self.cargo_collected}")
 
+
+
 def start_flight(username, airplane):
     while True:
         print("\nChoose an action:")
-        print("1. Fly to next airport")
-        print("2. Buy fuel")
-        print("3. Collect cargo")
-        print("4. Check status")
-        print("5. Quit")
+        print("1) Fly to next airport")
+        print("2) Buy fuel")
+        print("3) Collect cargo")
+        print("4) Check status")
+        print("5) Quit")
 
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            # Choose next airport (you can implement more intelligent selection based on map/distance)
+            # Choose next airport
             next_airport = random.choice([airport for airport in airports if airport != airplane.current_airport])
             if airplane.fly_to(next_airport):
                 if airplane.current_airport == airplane.destination_airport:
@@ -118,7 +128,7 @@ def start_flight(username, airplane):
         elif choice == "4":
             airplane.status()
         elif choice == "5":
-            print("Quitting the game...")
+            print("Game over!!! Better luck next time!")
             break
         else:
             print("Invalid choice!")
@@ -132,6 +142,15 @@ def load_player_data(username):
 
     return airplane
 
+#Giving game instructions to the user
+print("Welcome to Flight Path!")
+print("\n")
+print("** You must successfully reach the designated destination by collecting cargoes to achieve victory.")
+print("** You must manage fuel until you reach the destination, if fuel is insufficient you can buy additional fuel using available funds.")
+print("\n")
+print("Prepare for takeoff and chart your course through 10 airports, managing fuel and cargo wisely. \nGood luck, captain!")
+print("\n")
 username = input("Enter your username: ")
+
 airplane = load_player_data(username)
 start_flight(username, airplane)
